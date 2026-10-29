@@ -1,9 +1,10 @@
 # d-meter-legal
 
 Static legal and support pages for the D-METER iOS app, in English and
-Ukrainian, for GitHub Pages.
+Ukrainian.
 
-Status: **draft, not published.** Publishing requires a separate Owner GO.
+Published with GitHub Pages from the root of the `main` branch:
+https://kokarev.github.io/d-meter-legal/
 
 ## Pages
 
@@ -13,8 +14,7 @@ Status: **draft, not published.** Publishing requires a separate Owner GO.
 | Terms of Use | `en/terms/` | `uk/terms/` |
 | Support | `en/support/` | `uk/support/` |
 
-Final addresses, valid only once the repository `Kokarev/d-meter-legal` is
-published with GitHub Pages from the root of its default branch:
+Addresses:
 
     https://kokarev.github.io/d-meter-legal/{en,uk}/privacy/
     https://kokarev.github.io/d-meter-legal/{en,uk}/terms/
