@@ -45,7 +45,9 @@ T = {
         "nav_download": "Download",
         "nav_support": "Support",
         "menu": "Menu",
-        "theme": "Switch light or dark theme",
+        "theme_system": "Theme: system (as on this device). Switch to light",
+        "theme_light": "Theme: light. Switch to dark",
+        "theme_dark": "Theme: dark. Switch to system",
         "lang_aria": "Language",
         "soon": "Coming soon to the App Store",
         "soon_note": "The link will appear after publication",
@@ -230,7 +232,9 @@ T = {
         "nav_download": "Завантажити",
         "nav_support": "Підтримка",
         "menu": "Меню",
-        "theme": "Перемкнути світлу або темну тему",
+        "theme_system": "Тема: системна (як на пристрої). Перемкнути на світлу",
+        "theme_light": "Тема: світла. Перемкнути на темну",
+        "theme_dark": "Тема: темна. Перемкнути на системну",
         "lang_aria": "Мова",
         "soon": "Незабаром в App Store",
         "soon_note": "Посилання з’явиться після публікації",
@@ -375,7 +379,7 @@ T = {
                       "«Відновити покупки» повертає PRO на іншому пристрої з тим самим Apple ID.",
                       "«Керувати підпискою» відкриває налаштування підписки в App Store."],
         "sub_price_k": "Ціна:",
-        "sub_price_v": "не фіксується на сайті — показано в застосунку через App Store",
+        "sub_price_v": "не вказана на сайті — її показано в застосунку через App Store",
         "disclosure_label": "Як у застосунку",
         "disclosure": "Оплата списується з облікового запису Apple ID після підтвердження покупки. Підписка поновлюється автоматично, якщо її не скасовано щонайменше за 24 години до кінця поточного періоду. Плата за поновлення списується протягом 24 годин до кінця поточного періоду. Керувати підпискою або скасувати її можна в налаштуваннях облікового запису App Store.",
         "terms_eula": "Умови використання (EULA)",
@@ -416,6 +420,7 @@ assert "#1A1A1A" not in LOGO_FULL
 
 SVG_SUN = '<svg class="sun" aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.8v2M10 16.2v2M1.8 10h2M16.2 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/></svg>'
 SVG_MOON = '<svg class="moon" aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M16.5 12.3A7 7 0 0 1 7.7 3.5a7 7 0 1 0 8.8 8.8Z"/></svg>'
+SVG_AUTO = '<svg class="auto" aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10" cy="10" r="7"/><path d="M10 3a7 7 0 0 1 0 14Z" fill="currentColor" stroke="none"/></svg>'
 SVG_MENU = '<svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 6h14M3 10h14M3 14h14"/></svg>'
 
 
@@ -503,7 +508,7 @@ def header(lang, depth, page, current):
 </nav>
 <div class="tools">
 <div class="lang" role="group" aria-label="{t['lang_aria']}" data-lang-switch>{lang_links}</div>
-<button class="icon-btn theme-btn" type="button" aria-label="{t['theme']}" aria-pressed="false">{SVG_SUN}{SVG_MOON}</button>
+<button class="icon-btn theme-btn" type="button" aria-label="{t['theme_system']}" data-label-system="{t['theme_system']}" data-label-light="{t['theme_light']}" data-label-dark="{t['theme_dark']}">{SVG_AUTO}{SVG_SUN}{SVG_MOON}</button>
 <details class="menu">
 <summary class="icon-btn" aria-label="{t['menu']}">{SVG_MENU}</summary>
 <nav class="menu-panel" aria-label="{t['nav_aria']}">

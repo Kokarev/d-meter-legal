@@ -55,9 +55,22 @@ into a temporary directory only (the site build does that for you).
 
 The pages load nothing from other sites: no CDN, web fonts, analytics or
 trackers. The only font file is the app's Roboto Mono (`assets/fonts/`, SIL
-Open Font License). The site works without JavaScript; `assets/site.js` only
-adds the theme switch and remembers the visitor's choice in localStorage.
+Open Font License). The site works without JavaScript: the theme then
+follows the system and the theme button is hidden. `assets/site.js` adds the
+theme button (system → light → dark) and remembers the visitor's
+choice and last language in localStorage.
 `404.html` assumes the site is served under `/d-meter-legal/`.
+
+Checks:
+
+    python3 -I tools/check_web.py      # static: legal texts, links, external resources, prices
+    python3 tools/check_layout.py      # browser: needs Google Chrome and the Python package websockets
+
+`tools/check_layout.py` serves the site on 127.0.0.1 under `/d-meter-legal/`,
+blocks every other host, and opens each page at 320, 375, 390, 768 and
+1440 px in light and dark. It fails on horizontal scrolling, overlapping
+controls (header, button rows), broken images, HTTP errors, any request to
+another site, and a theme button that does not cycle.
 
 ## Assets
 

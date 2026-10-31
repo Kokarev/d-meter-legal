@@ -121,8 +121,7 @@ p { text-wrap: pretty; }
 .nav a[aria-current="page"] { font-weight: 600; }
 .tools { display: flex; align-items: center; gap: 8px; margin-left: auto; flex: 0 0 auto; }
 @media (max-width: 860px) {
-  .brand { flex: 0 1 auto; min-width: 0; }
-  .brand small { line-height: 1.25; }   /* long UK subtitle wraps instead of pushing the tools off-screen */
+  .brand small { line-height: 1.25; }
 }
 
 .lang { display: inline-flex; padding: 3px; border-radius: 999px; background: var(--surface-alt); border: 1px solid var(--line); }
@@ -131,13 +130,14 @@ p { text-wrap: pretty; }
 
 .icon-btn { width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface-alt); color: var(--ink); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; }
 .icon-btn svg { width: 20px; height: 20px; }
-.theme-btn .moon { display: none; }
-:root[data-theme="dark"] .theme-btn .sun { display: none; }
-:root[data-theme="dark"] .theme-btn .moon { display: block; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .theme-btn .sun { display: none; }
-  :root:not([data-theme="light"]) .theme-btn .moon { display: block; }
-}
+/* The theme button needs site.js; without it the theme follows the system and
+   the button stays hidden. Its icon shows the current mode: system, light, dark. */
+.theme-btn { display: none; }
+.js .theme-btn { display: inline-flex; }
+.theme-btn svg { display: none; }
+:root[data-theme-mode="system"] .theme-btn .auto,
+:root[data-theme-mode="light"] .theme-btn .sun,
+:root[data-theme-mode="dark"] .theme-btn .moon { display: block; }
 
 /* mobile menu: a disclosure that works without JS */
 .menu { display: none; }
@@ -412,6 +412,9 @@ p { text-wrap: pretty; }
 /* next to the icon there is no room for the long UK subtitle on a phone */
 @media (max-width: 440px) { .brand small { display: none; } }
 @media (max-width: 380px) { .brand-icon { width: 32px; height: 32px; } }
+/* The brand never shrinks (it would slide under the tools). Below 361 px the
+   header holds only the wordmark next to the full-size 40 px controls. */
+@media (max-width: 360px) { .brand-icon { display: none; } }
 .logo-full { display: block; width: 100%; height: auto; color: var(--ink); }
 
 /* page head (Features, Examples, Download) */
