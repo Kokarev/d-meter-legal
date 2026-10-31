@@ -409,8 +409,9 @@ p { text-wrap: pretty; }
 .brand-icon { width: 36px; height: 36px; border-radius: 22.5%; flex: none; box-shadow: 0 0 0 1px var(--line); }
 .brand-text { display: flex; flex-direction: column; line-height: 1.1; min-width: 0; }
 .brand small { overflow-wrap: normal; }
-/* next to the icon there is no room for the long UK subtitle on a phone */
-@media (max-width: 440px) { .brand small { display: none; } }
+/* next to the icon there is no room for the subtitle on a phone (the UK one
+   is the longest: it needs about 464 px of header) */
+@media (max-width: 480px) { .brand small { display: none; } }
 @media (max-width: 380px) { .brand-icon { width: 32px; height: 32px; } }
 /* The brand never shrinks (it would slide under the tools). Below 361 px the
    header holds only the wordmark next to the full-size 40 px controls. */

@@ -10,8 +10,9 @@ REFERENCE_COMMIT (default 8c1f97c, the published legal pages) is read with
    one <article class="doc">, up to its source note) is byte-identical to the
    <main> of the same page in REFERENCE_COMMIT.
 2. Every address published in REFERENCE_COMMIT still exists.
-3. Nothing is loaded from another site: elements, srcset, style attributes,
-   <style> blocks, stylesheets, meta refresh, scripts.
+3. Nothing is loaded from another site: elements (including SVG image/use),
+   srcset, style attributes, <style> blocks, stylesheets, meta refresh,
+   scripts; no <base> element and no srcdoc.
 4. Every internal link and resource resolves to a file in the repository,
    including #anchors; target="_blank" links carry rel="noopener".
 5. No placeholders, prices, trial lengths or App Store links.
@@ -32,6 +33,9 @@ FORBIDDEN = [
     (r"\[[^\]]*(screenshot|link|price|TODO|TBD)[^\]]*\]", "placeholder in brackets"),
     (r"lorem ipsum|\bTODO\b|\bTBD\b|FIXME", "placeholder text"),
     (r"[$€£₴]|\bгрн\b|\bUAH\b|\bEUR\b", "a currency used for a price"),
+    (r"\b1[.,]99\b", "the preliminary test price"),
+    # amounts in USD; the escalation examples in USD per tonne are allowed
+    (r"\b\d+[.,]\d{2}\s*USD\b(?!\s*/\s*t\b)|\bUSD\s*\d", "an amount in USD"),
     (r"/\s*(month|week|year|mo|wk|yr|міс\w*|тиж\w*|рік|року)\b|\b(per|a|на|за)\s+(month|week|year|місяць|тиждень|рік)\b",
      "a price per period"),
     (r"\b\d+\s*[- ]?\s*(day|days|week|weeks|month|months|днів|дні|день|тижн\w*|тиждень|місяц\w*)\b", "a trial length"),
@@ -41,7 +45,8 @@ FORBIDDEN = [
 ]
 JS_NETWORK = r"fetch\s*\(|XMLHttpRequest|sendBeacon|WebSocket|EventSource|importScripts|\bimport\s*\(|new\s+Image\b|\.src\s*=|[\"'`]\s*(https?:)?//"
 URL_IN_CSS = re.compile(r"url\(\s*([^)]*?)\s*\)|@import\s+([^;]+)", re.I)
-LOADING_TAGS = ("img", "script", "iframe", "source", "video", "audio", "embed", "object", "track", "input")
+LOADING_TAGS = ("img", "script", "iframe", "frame", "source", "video", "audio", "embed", "object", "track", "input",
+                "image", "use", "feimage")   # SVG elements load their href
 failures = []
 
 
@@ -84,12 +89,16 @@ class Page(html.parser.HTMLParser):
             self._in_style = True
         if a.get("style"):
             self.styles.append(a["style"])
+        if tag == "base":
+            self.refs.append(("base-element", "href", a.get("href", ""), a))
+        if "srcdoc" in a:
+            self.refs.append(("srcdoc", "srcdoc", tag, a))
         if tag == "meta" and a.get("http-equiv", "").lower() == "refresh":
             fail_msg = a.get("content", "")
             self.refs.append(("meta-refresh", "content", fail_msg, a))
         if tag == "a" and a.get("target", "").lower() == "_blank" and "noopener" not in a.get("rel", "").lower():
             self.refs.append(("blank-target", "href", a.get("href", ""), a))
-        for attr in ("href", "src", "poster", "data", "action", "formaction"):
+        for attr in ("href", "xlink:href", "src", "poster", "data", "action", "formaction"):
             if a.get(attr):
                 self.refs.append((tag, attr, a[attr], a))
         for attr in ("srcset", "imagesrcset"):
@@ -181,6 +190,12 @@ for page in pages:
         if tag == "blank-target":
             fail(f"{rel}: target=_blank without rel=noopener {value}")
             continue
+        if tag == "base-element":
+            fail(f"{rel}: <base href={value!r}> changes how every link resolves")
+            continue
+        if tag == "srcdoc":
+            fail(f"{rel}: srcdoc on <{value}> embeds a document")
+            continue
         url = urllib.parse.urlsplit(value)
         if url.scheme in ("mailto", "tel") or value.startswith("#") and tag == "a":
             if value.startswith("#") and value[1:] and f'id="{value[1:]}"' not in text:
@@ -191,7 +206,7 @@ for page in pages:
             continue
         if is_external(value):
             rel_attr = attrs.get("rel", "").lower()
-            loads = tag in LOADING_TAGS or attr not in ("href",) or (
+            loads = tag in LOADING_TAGS or attr not in ("href", "xlink:href") or (
                 tag == "link" and rel_attr not in ("canonical", "alternate"))
             if loads:
                 fail(f"{rel}: external resource {tag}.{attr} {value}")

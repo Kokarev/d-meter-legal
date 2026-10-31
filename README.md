@@ -67,10 +67,12 @@ Checks:
     python3 tools/check_layout.py      # browser: needs Google Chrome and the Python package websockets
 
 `tools/check_layout.py` serves the site on 127.0.0.1 under `/d-meter-legal/`,
-blocks every other host, and opens each page at 320, 375, 390, 768 and
-1440 px in light and dark. It fails on horizontal scrolling, overlapping
-controls (header, button rows), broken images, HTTP errors, any request to
-another site, and a theme button that does not cycle.
+blocks every other host, and opens each page at 320, 375, 390, 450, 768 and
+1440 px in light and dark, then resizes it through every width from 300 to
+1000 px. It fails on horizontal scrolling, overlapping controls (header,
+button rows), broken images, HTTP errors, any request to another site, a
+theme button that does not cycle, a wrong background in any theme mode, and
+a theme button shown without JavaScript.
 
 ## Assets
 

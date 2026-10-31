@@ -6,16 +6,18 @@ package websockets):
 
 Serves this repository on 127.0.0.1 under /d-meter-legal/ (unknown paths get
 404.html, as on GitHub Pages), starts headless Chrome with every other host
-blocked, and opens each page at 320, 375, 390, 768 and 1440 px in the light
-and dark system theme. Fails on:
+blocked, and opens each page at 320, 375, 390, 450, 768 and 1440 px in the
+light and dark system theme, then resizes it through every width from 300 to
+1000 px. Fails on:
 
 - horizontal scrolling;
 - overlapping controls: the header's brand, navigation and tools, the
   controls inside the tools, the buttons of every button row; the wordmark
   must stay inside the header brand;
 - broken images, HTTP errors, failed loads, any request to another host;
-- the theme button not cycling as on the device -> light -> dark -> as on the
-  device, or being visible when JavaScript is off.
+- the theme button not cycling system -> light -> dark -> system, a wrong
+  page background in any of those modes (with a light and a dark system
+  theme), or the button being visible when JavaScript is off.
 
 Nothing in the repository is written. With SCREENSHOT_DIR, full-page PNGs of
 every page at 390 and 1440 px in both themes are saved there.
@@ -42,17 +44,21 @@ PREFIX = "/d-meter-legal/"
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 PAGES = [""] + [f"{l}/{p}" for l in ("en", "uk")
                 for p in ("", "features/", "examples/", "download/", "privacy/", "terms/", "support/")] + ["en/no-such-page/"]
-WIDTHS = (320, 375, 390, 768, 1440)
+WIDTHS = (320, 375, 390, 450, 768, 1440)
+SWEEP = range(300, 1001)     # every width, 1 px steps: scroll and overlaps only
+BG = {"light": "rgb(246, 247, 249)", "dark": "rgb(15, 17, 23)"}
 THEMES = ("light", "dark")
 SHOT_WIDTHS = (390, 1440)
 SHOT_DIR = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else None
 
-MEASURE = r"""(async () => {
-  document.querySelectorAll('img[loading=lazy]').forEach(i => i.loading = 'eager');
+MEASURE = r"""(async (quick) => {
+  if (!quick) document.querySelectorAll('img[loading=lazy]').forEach(i => i.loading = 'eager');
   const shown = e => { const s = getComputedStyle(e); const r = e.getBoundingClientRect();
                        return s.display !== 'none' && s.visibility !== 'hidden' && r.width > 0 && r.height > 0; };
-  await Promise.all([...document.images].filter(shown).map(i => i.complete ? 0 : new Promise(r => { i.onload = i.onerror = r; })));
-  await document.fonts.ready;
+  if (!quick) {
+    await Promise.all([...document.images].filter(shown).map(i => i.complete ? 0 : new Promise(r => { i.onload = i.onerror = r; })));
+    await document.fonts.ready;
+  }
   const de = document.documentElement;
   const overlaps = [];
   const name = e => e.tagName.toLowerCase() + (e.className && typeof e.className === 'string' ? '.' + e.className.trim().split(/\s+/).join('.') : '');
@@ -81,12 +87,13 @@ MEASURE = r"""(async () => {
     sw: de.scrollWidth, cw: de.clientWidth, h: de.scrollHeight, overlaps,
     broken: vis.filter(i => !i.naturalWidth).map(i => i.getAttribute('src')),
     bg: getComputedStyle(document.body).backgroundColor, status404: document.title.includes('Page not found')});
-})()"""
+})(QUICK)"""
 
 THEME_CYCLE = r"""(() => {
   const btn = document.querySelector('.theme-btn'); const de = document.documentElement; const out = [];
   const read = () => { let v = null; try { v = localStorage.getItem('dmeter-theme'); } catch (e) {}
-                       return [de.getAttribute('data-theme-mode'), de.getAttribute('data-theme'), v, btn.getAttribute('aria-label')]; };
+                       return [de.getAttribute('data-theme-mode'), de.getAttribute('data-theme'), v, btn.getAttribute('aria-label'),
+                               getComputedStyle(document.body).backgroundColor]; };
   out.push(read());
   for (let i = 0; i < 3; i++) { btn.click(); out.push(read()); }
   return JSON.stringify(out);
@@ -165,14 +172,13 @@ async def run(base, ws_url):
                     await call("Emulation.setDeviceMetricsOverride", width=w, height=900, deviceScaleFactor=1, mobile=w < 768)
                     await call("Emulation.setEmulatedMedia", features=[{"name": "prefers-color-scheme", "value": theme}])
                     await load(base + page)
-                    m = await js(MEASURE, promise=True)
+                    m = await js(MEASURE.replace("QUICK", "false"), promise=True)
                     if m["sw"] > m["cw"]:
                         failures.append(f"{tag}: horizontal scroll {m['sw']} > {m['cw']}")
                     failures += [f"{tag}: overlap {o}" for o in m["overlaps"]]
                     failures += [f"{tag}: broken image {b}" for b in m["broken"]]
-                    expected_bg = "rgb(246, 247, 249)" if theme == "light" else "rgb(15, 17, 23)"
-                    if m["bg"] != expected_bg:
-                        failures.append(f"{tag}: background {m['bg']}, expected {expected_bg}")
+                    if m["bg"] != BG[theme]:
+                        failures.append(f"{tag}: background {m['bg']}, expected {BG[theme]}")
                     for e in events:
                         meth, p = e.get("method"), e.get("params", {})
                         if meth == "Network.requestWillBeSent" and not p["request"]["url"].startswith(base.split(PREFIX)[0]):
@@ -195,25 +201,45 @@ async def run(base, ws_url):
                         (SHOT_DIR / fname).write_bytes(base64.b64decode(shot["data"]))
                         shots += 1
 
+        # every width from 300 to 1000 px: resize the loaded page, no reload
+        await call("Emulation.setEmulatedMedia", features=[{"name": "prefers-color-scheme", "value": "light"}])
+        swept = 0
+        for page in PAGES:
+            await call("Emulation.setDeviceMetricsOverride", width=1000, height=900, deviceScaleFactor=1, mobile=False)
+            await load(base + page)
+            await js(MEASURE.replace("QUICK", "false"), promise=True)
+            for w in SWEEP:
+                await call("Emulation.setDeviceMetricsOverride", width=w, height=900, deviceScaleFactor=1, mobile=w < 768)
+                m = await js(MEASURE.replace("QUICK", "true"), promise=True)
+                swept += 1
+                if m["sw"] > m["cw"]:
+                    failures.append(f"/{page} {w}px sweep: horizontal scroll {m['sw']} > {m['cw']}")
+                failures += [f"/{page} {w}px sweep: overlap {o}" for o in m["overlaps"]]
+
         # theme button: system -> light -> dark -> system, stored choice follows
         await call("Emulation.setDeviceMetricsOverride", width=390, height=900, deviceScaleFactor=1, mobile=True)
-        for lang in ("en", "uk"):
-            await call("Runtime.evaluate", expression="try { localStorage.clear() } catch (e) {}")
-            await load(base + f"{lang}/")
-            seq = await js(THEME_CYCLE)
-            modes = [s[0] for s in seq]
-            stored = [s[2] for s in seq]
-            labels = [s[3] for s in seq]
-            if modes != ["system", "light", "dark", "system"] or stored != [None, "light", "dark", None] \
-                    or [s[1] for s in seq] != [None, "light", "dark", None] or len(set(labels[:3])) != 3:
-                failures.append(f"theme button /{lang}/: {seq}")
-            # the choice is kept on the next page
-            await call("Runtime.evaluate", expression="document.querySelector('.theme-btn').click()")
-            await load(base + f"{lang}/features/")
-            kept = await js("JSON.stringify(document.documentElement.getAttribute('data-theme-mode'))")
-            if kept != "light":
-                failures.append(f"theme choice not kept across pages /{lang}/: {kept}")
-            await call("Runtime.evaluate", expression="try { localStorage.clear() } catch (e) {}")
+        for system in THEMES:
+            await call("Emulation.setEmulatedMedia", features=[{"name": "prefers-color-scheme", "value": system}])
+            for lang in ("en", "uk"):
+                await call("Runtime.evaluate", expression="try { localStorage.clear() } catch (e) {}")
+                await load(base + f"{lang}/")
+                seq = await js(THEME_CYCLE)
+                modes = [s[0] for s in seq]
+                stored = [s[2] for s in seq]
+                labels = [s[3] for s in seq]
+                if modes != ["system", "light", "dark", "system"] or stored != [None, "light", "dark", None] \
+                        or [s[1] for s in seq] != [None, "light", "dark", None] or len(set(labels[:3])) != 3:
+                    failures.append(f"theme button /{lang}/ (system {system}): {seq}")
+                expected = [BG[system], BG["light"], BG["dark"], BG[system]]
+                if [s[4] for s in seq] != expected:
+                    failures.append(f"theme background /{lang}/ (system {system}): {[s[4] for s in seq]}, expected {expected}")
+                # the choice is kept on the next page
+                await call("Runtime.evaluate", expression="document.querySelector('.theme-btn').click()")
+                await load(base + f"{lang}/features/")
+                kept = await js("JSON.stringify(document.documentElement.getAttribute('data-theme-mode'))")
+                if kept != "light":
+                    failures.append(f"theme choice not kept across pages /{lang}/ (system {system}): {kept}")
+                await call("Runtime.evaluate", expression="try { localStorage.clear() } catch (e) {}")
 
         # without JavaScript: theme button hidden, system theme applies
         # (page scripts are off; the DOM and CSS domains still read the result)
@@ -235,7 +261,7 @@ async def run(base, ws_url):
             if values["body"]["background-color"] != expected_bg:
                 failures.append(f"no-JS {theme}: background {values['body']['background-color']}")
         await call("Emulation.setScriptExecutionDisabled", value=False)
-    return combos, shots, failures
+    return combos, shots, swept, failures
 
 
 def main():
@@ -263,7 +289,7 @@ def main():
         else:
             sys.exit("Chrome did not start")
         ws_url = next(t["webSocketDebuggerUrl"] for t in tabs if t["type"] == "page")
-        combos, shots, failures = asyncio.run(run(base, ws_url))
+        combos, shots, swept, failures = asyncio.run(run(base, ws_url))
     finally:
         chrome.terminate()
         try:
@@ -272,7 +298,8 @@ def main():
             chrome.kill()
         server.shutdown()
         shutil.rmtree(profile, ignore_errors=True)
-    print(f"page loads checked: {combos} ({len(PAGES)} pages x {len(WIDTHS)} widths x {len(THEMES)} themes)"
+    print(f"page loads checked: {combos} ({len(PAGES)} pages x {len(WIDTHS)} widths x {len(THEMES)} themes); "
+          f"width sweep: {swept} ({len(PAGES)} pages x {SWEEP.start}-{SWEEP.stop - 1} px)"
           + (f"; screenshots: {shots}" if SHOT_DIR else ""))
     if failures:
         print("FAIL")
