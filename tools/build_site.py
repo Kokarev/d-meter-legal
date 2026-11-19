@@ -24,6 +24,9 @@ APPLE_EULA = "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
 APPLE_PRIVACY = "https://www.apple.com/legal/privacy/"
 APPLE_SUBS = "https://support.apple.com/118428"
 APPLE_REFUND = "https://reportaproblem.apple.com/"
+GOOGLE_PLAY_TOS = "https://play.google.com/about/play-terms/"
+GOOGLE_PRIVACY = "https://policies.google.com/privacy"
+GOOGLE_REFUND = "https://support.google.com/googleplay/answer/2479637"
 GITHUB_PRIVACY = (
     "https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement"
 )
@@ -56,7 +59,7 @@ MAIL = f'<a href="mailto:{EMAIL}">{EMAIL}</a>'
 
 DOCS = {
     ("en", "privacy"): f"""
-<p>D-METER (“the app”) is a fuel density calculator for iOS developed by
+<p>D-METER (“the app”) is a fuel density calculator for iOS and Android developed by
 {DEV} (“we”, “us”). This policy describes what information the app handles
 and how.</p>
 
@@ -67,8 +70,8 @@ and how.</p>
 <li>The app contains no advertising, analytics, tracking or third-party
 crash-reporting software.</li>
 <li>The app does not send your data to us or to any third-party server.
-It communicates only with Apple’s App Store, through Apple’s StoreKit, for
-the subscription.</li>
+On iOS it communicates only with Apple’s App Store, through Apple’s StoreKit,
+for the subscription. On Android it does not connect to the internet.</li>
 </ul>
 
 <h2>Information stored on your device</h2>
@@ -92,19 +95,33 @@ purpose, is kept in memory only, and is not sent to us.</p>
 Connect. Apple’s handling of your purchase information is described in the
 {a(APPLE_PRIVACY, "Apple Privacy Policy")}.</p>
 
-<h2>Diagnostics provided by Apple</h2>
+<h2>Google Play purchase (Android)</h2>
+<p>On Android, D-METER is a paid app sold through Google Play. All features
+are included in the purchase; there are no in-app purchases or
+subscriptions. Payments are processed by Google. We do not receive or store
+your payment card details, Google account or billing address, and the app
+does not check your purchase with any server.</p>
+<p>Google provides developers with order reports in the Google Play Console.
+Google’s handling of your information is described in the
+{a(GOOGLE_PRIVACY, "Google Privacy Policy")}.</p>
+
+<h2>Diagnostics provided by Apple and Google</h2>
 <p>If you choose to share analytics with app developers in your device
 settings, Apple may provide us with crash reports and aggregated usage
 statistics. You control this in iOS Settings → Privacy &amp; Security →
 Analytics &amp; Improvements. Such data is provided by Apple under the Apple
 Privacy Policy.</p>
+<p>On Android, if you have chosen to share usage and diagnostics data with
+Google, Google Play may provide us with crash reports and aggregated
+statistics about the app. You control this in your Android device settings.
+Such data is provided by Google under the Google Privacy Policy.</p>
 
 <h2>Web pages opened from the app</h2>
 <p>The app opens this policy, the Terms of Use and the Support page in your
 web browser. These pages are hosted on GitHub Pages. When you visit them,
 GitHub may process technical information such as your IP address, as
 described in the {a(GITHUB_PRIVACY, "GitHub General Privacy Statement")}. The
-app also opens Apple’s subscription management, which is governed by Apple.</p>
+iOS app also opens Apple’s subscription management, which is governed by Apple.</p>
 
 <h2>Contacting us</h2>
 <p>If you email us, we receive your email address and the content of your
@@ -126,7 +143,7 @@ update the date above.</p>
 <p>{DEV}<br>{MAIL}</p>
 """,
     ("uk", "privacy"): f"""
-<p>D-METER («застосунок») — калькулятор густини пального для iOS, який
+<p>D-METER («застосунок») — калькулятор густини пального для iOS та Android, який
 розробив {DEV} («ми»). Ця політика описує, яку інформацію обробляє
 застосунок і як саме.</p>
 
@@ -137,7 +154,8 @@ update the date above.</p>
 <li>Застосунок не містить реклами, аналітики, відстеження чи сторонніх
 засобів збору звітів про збої.</li>
 <li>Застосунок не надсилає ваші дані ні нам, ні на сторонні сервери. Він
-звертається лише до Apple App Store через Apple StoreKit — для підписки.</li>
+на iOS звертається лише до Apple App Store через Apple StoreKit — для
+підписки. На Android застосунок не підключається до інтернету.</li>
 </ul>
 
 <h2>Інформація, що зберігається на пристрої</h2>
@@ -161,19 +179,33 @@ update the date above.</p>
 Connect. Як Apple обробляє інформацію про ваші покупки, описано в
 {a(APPLE_PRIVACY, "Політиці конфіденційності Apple")}.</p>
 
-<h2>Діагностика від Apple</h2>
+<h2>Покупка в Google Play (Android)</h2>
+<p>На Android D-METER — платний застосунок, що продається через Google
+Play. Усі функції входять у покупку; вбудованих покупок і підписок немає.
+Платежі обробляє Google. Ми не отримуємо і не зберігаємо дані вашої
+платіжної картки, облікового запису Google чи платіжну адресу, а застосунок
+не перевіряє покупку на жодному сервері.</p>
+<p>Google надає розробникам звіти про замовлення в Google Play Console. Як
+Google обробляє вашу інформацію, описано в
+{a(GOOGLE_PRIVACY, "Політиці конфіденційності Google")}.</p>
+
+<h2>Діагностика від Apple і Google</h2>
 <p>Якщо ви в налаштуваннях пристрою погодилися ділитися аналітикою з
 розробниками, Apple може надавати нам звіти про збої та узагальнену
 статистику використання. Це налаштовується в Параметри iOS → Приватність і
 безпека → Аналітика й покращення. Такі дані Apple надає відповідно до своєї
 Політики конфіденційності.</p>
+<p>На Android, якщо ви погодилися ділитися з Google даними про використання
+та діагностику, Google Play може надавати нам звіти про збої та узагальнену
+статистику щодо застосунку. Це налаштовується в параметрах пристрою Android.
+Такі дані Google надає відповідно до Політики конфіденційності Google.</p>
 
 <h2>Вебсторінки, що відкриваються із застосунку</h2>
 <p>Застосунок відкриває цю політику, Умови використання та сторінку
 підтримки у вашому браузері. Ці сторінки розміщено на GitHub Pages. Коли ви
 їх відвідуєте, GitHub може обробляти технічну інформацію, як-от вашу
 IP-адресу, відповідно до {a(GITHUB_PRIVACY, "GitHub General Privacy Statement")}.
-Застосунок також відкриває керування підписками Apple, на яке поширюються
+Застосунок для iOS також відкриває керування підписками Apple, на яке поширюються
 правила Apple.</p>
 
 <h2>Звернення до нас</h2>
@@ -197,21 +229,23 @@ IP-адресу, відповідно до {a(GITHUB_PRIVACY, "GitHub General Pr
 <p>{DEV}<br>{MAIL}</p>
 """,
     ("en", "terms"): f"""
-<p>These terms apply to the D-METER app for iOS developed by {DEV} (“we”,
+<p>These terms apply to the D-METER app for iOS and Android developed by {DEV} (“we”,
 “us”).</p>
 
 <h2>1. Licence</h2>
-<p>Your use of D-METER is governed by Apple’s
+<p>On iOS, your use of D-METER is governed by Apple’s
 {a(APPLE_EULA, "Licensed Application End User License Agreement (Standard EULA)")}.
 These terms add information about the PRO subscription and the use of
 calculation results. If these terms conflict with the applicable Standard
 EULA, the Standard EULA prevails.</p>
+<p>On Android, D-METER is distributed through Google Play, and your use of it
+is also subject to the {a(GOOGLE_PLAY_TOS, "Google Play Terms of Service")}.</p>
 
-<h2>2. Free features</h2>
-<p>The base density calculator, including AIR details, is available without
+<h2>2. Free features (iOS)</h2>
+<p>On iOS, the base density calculator, including AIR details, is available without
 a subscription.</p>
 
-<h2>3. D-METER PRO Monthly subscription</h2>
+<h2>3. D-METER PRO Monthly subscription (iOS)</h2>
 <p>D-METER PRO Monthly unlocks the Density Chart (virtual hydrometer),
 Blending and Density Escalation.</p>
 <ul>
@@ -235,7 +269,19 @@ Apple ID.</li>
 {a(APPLE_REFUND)}.</li>
 </ul>
 
-<h2>4. Calculation results</h2>
+<h2>4. Paid app on Google Play (Android)</h2>
+<ul>
+<li>On Android, D-METER is a paid app. The price shown in Google Play is a
+one-time purchase that includes all features, including the Density Chart
+(virtual hydrometer), Blending and Density Escalation.</li>
+<li>There are no in-app purchases or subscriptions in the Android app.</li>
+<li>The app is available on your Android devices signed in with the Google
+account used for the purchase.</li>
+<li>Payments and refunds are handled by Google Play under its refund
+policies. See {a(GOOGLE_REFUND, "Google Play refund help")}.</li>
+</ul>
+
+<h2>5. Calculation results</h2>
 <p>D-METER provides calculations for reference. Results depend on the values
 you enter and on the methods implemented in the app. They are not a
 certified measurement and do not replace laboratory analysis, calibrated
@@ -245,29 +291,31 @@ use, and should check them before relying on them for commercial, safety or
 legal decisions. Nothing in these terms limits any rights or remedies that
 cannot be limited under applicable law.</p>
 
-<h2>5. Changes</h2>
+<h2>6. Changes</h2>
 <p>We may update the app and these terms. The current version is always
 published on this page with its date.</p>
 
-<h2>6. Contact</h2>
+<h2>7. Contact</h2>
 <p>{DEV}<br>{MAIL}</p>
 """,
     ("uk", "terms"): f"""
-<p>Ці умови стосуються застосунку D-METER для iOS, який розробив {DEV}
+<p>Ці умови стосуються застосунку D-METER для iOS та Android, який розробив {DEV}
 («ми»).</p>
 
 <h2>1. Ліцензія</h2>
-<p>Використання D-METER регулюється
+<p>На iOS використання D-METER регулюється
 {a(APPLE_EULA, "Ліцензійною угодою Apple з кінцевим користувачем (Standard EULA)")}.
 Ці умови додають інформацію про підписку PRO та використання результатів
 розрахунків. У разі суперечності цих умов із застосовною Standard EULA
 переважає Standard EULA.</p>
+<p>На Android D-METER поширюється через Google Play, і його використання
+також регулюється {a(GOOGLE_PLAY_TOS, "Умовами використання Google Play")}.</p>
 
-<h2>2. Безкоштовні функції</h2>
-<p>Базовий калькулятор густини, зокрема деталі AIR, доступний без
+<h2>2. Безкоштовні функції (iOS)</h2>
+<p>На iOS базовий калькулятор густини, зокрема деталі AIR, доступний без
 підписки.</p>
 
-<h2>3. Підписка D-METER PRO Monthly</h2>
+<h2>3. Підписка D-METER PRO Monthly (iOS)</h2>
 <p>D-METER PRO Monthly відкриває графік густини (віртуальний ареометр),
 змішування та коригування за густиною.</p>
 <ul>
@@ -291,7 +339,19 @@ published on this page with its date.</p>
 подати на {a(APPLE_REFUND)}.</li>
 </ul>
 
-<h2>4. Результати розрахунків</h2>
+<h2>4. Платний застосунок у Google Play (Android)</h2>
+<ul>
+<li>На Android D-METER — платний застосунок. Ціна, показана в Google Play, —
+це разова покупка, що включає всі функції, зокрема графік густини
+(віртуальний ареометр), змішування та коригування за густиною.</li>
+<li>У застосунку для Android немає вбудованих покупок і підписок.</li>
+<li>Застосунок доступний на ваших пристроях Android, де виконано вхід в
+обліковий запис Google, з якого здійснено покупку.</li>
+<li>Платежі й повернення коштів здійснює Google Play відповідно до своїх
+правил повернення. Див. {a(GOOGLE_REFUND, "довідку Google Play щодо повернення коштів")}.</li>
+</ul>
+
+<h2>5. Результати розрахунків</h2>
 <p>D-METER надає розрахунки довідкового характеру. Результати залежать від
 введених значень і методів, реалізованих у застосунку. Вони не є
 сертифікованим вимірюванням і не замінюють лабораторного аналізу,
@@ -302,20 +362,20 @@ published on this page with its date.</p>
 обмежує прав чи засобів правового захисту, які не можуть бути обмежені
 чинним законодавством.</p>
 
-<h2>5. Зміни</h2>
+<h2>6. Зміни</h2>
 <p>Ми можемо оновлювати застосунок і ці умови. Чинна версія завжди
 публікується на цій сторінці з датою.</p>
 
-<h2>6. Контакти</h2>
+<h2>7. Контакти</h2>
 <p>{DEV}<br>{MAIL}</p>
 """,
     ("en", "support"): f"""
 <p>Questions, problems or suggestions about D-METER: write to {MAIL}.</p>
-<p>To help us answer quickly, please include your device model, iOS version,
+<p>To help us answer quickly, please include your device model, iOS or Android version,
 the app version (Settings → APP → Version in D-METER), what you did and what
 happened, and a screenshot if possible.</p>
 
-<h2>Subscription</h2>
+<h2>Subscription (iOS)</h2>
 <dl>
 <dt>What does PRO include?</dt>
 <dd>The Density Chart (virtual hydrometer), Blending and Density Escalation. The base
@@ -336,6 +396,16 @@ end of the current period to avoid renewal.</dd>
 {a(APPLE_REFUND)}.</dd>
 </dl>
 
+<h2>Android (Google Play)</h2>
+<dl>
+<dt>Is there a subscription on Android?</dt>
+<dd>No. On Google Play, D-METER is a paid app: the purchase includes all
+features, with no in-app purchases or subscriptions.</dd>
+<dt>How do I get a refund?</dt>
+<dd>Purchases on Google Play are refunded by Google. See
+{a(GOOGLE_REFUND, "Google Play refund help")}.</dd>
+</dl>
+
 <h2>Documents</h2>
 <ul>
 <li>{a("../privacy/", "Privacy Policy")}</li>
@@ -347,11 +417,11 @@ end of the current period to avoid renewal.</dd>
 """,
     ("uk", "support"): f"""
 <p>Запитання, проблеми чи пропозиції щодо D-METER: пишіть на {MAIL}.</p>
-<p>Щоб ми могли швидше відповісти, вкажіть модель пристрою, версію iOS, версію
+<p>Щоб ми могли швидше відповісти, вкажіть модель пристрою, версію iOS чи Android, версію
 застосунку (Налаштування → APP → Version у D-METER), що ви робили і що
 сталося, та, за можливості, додайте знімок екрана.</p>
 
-<h2>Підписка</h2>
+<h2>Підписка (iOS)</h2>
 <dl>
 <dt>Що входить у PRO?</dt>
 <dd>Графік густини (віртуальний ареометр), змішування та коригування за густиною. Базовий
@@ -370,6 +440,16 @@ end of the current period to avoid renewal.</dd>
 <dt>Як повернути кошти?</dt>
 <dd>Платежі обробляє Apple, тому запит на повернення подається в Apple на
 {a(APPLE_REFUND)}.</dd>
+</dl>
+
+<h2>Android (Google Play)</h2>
+<dl>
+<dt>Чи є підписка на Android?</dt>
+<dd>Ні. У Google Play D-METER — платний застосунок: покупка включає всі
+функції, без вбудованих покупок і підписок.</dd>
+<dt>Як повернути кошти?</dt>
+<dd>Покупки в Google Play повертає Google. Див.
+{a(GOOGLE_REFUND, "довідку Google Play щодо повернення коштів")}.</dd>
 </dl>
 
 <h2>Документи</h2>
