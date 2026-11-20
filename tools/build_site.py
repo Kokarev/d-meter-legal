@@ -27,6 +27,7 @@ APPLE_REFUND = "https://reportaproblem.apple.com/"
 GOOGLE_PLAY_TOS = "https://play.google.com/about/play-terms/"
 GOOGLE_PRIVACY = "https://policies.google.com/privacy"
 GOOGLE_REFUND = "https://support.google.com/googleplay/answer/2479637"
+GOOGLE_SUBS = "https://support.google.com/googleplay/answer/7018481"
 GITHUB_PRIVACY = (
     "https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement"
 )
@@ -71,7 +72,8 @@ and how.</p>
 crash-reporting software.</li>
 <li>The app does not send your data to us or to any third-party server.
 On iOS it communicates only with Apple’s App Store, through Apple’s StoreKit,
-for the subscription. On Android it does not connect to the internet.</li>
+for the subscription. On Android it communicates only with Google Play,
+through the Google Play Billing Library, for the subscription.</li>
 </ul>
 
 <h2>Information stored on your device</h2>
@@ -95,13 +97,16 @@ purpose, is kept in memory only, and is not sent to us.</p>
 Connect. Apple’s handling of your purchase information is described in the
 {a(APPLE_PRIVACY, "Apple Privacy Policy")}.</p>
 
-<h2>Google Play purchase (Android)</h2>
-<p>On Android, D-METER is a paid app sold through Google Play. All features
-are included in the purchase; there are no in-app purchases or
-subscriptions. Payments are processed by Google. We do not receive or store
-your payment card details, Google account or billing address, and the app
-does not check your purchase with any server.</p>
-<p>Google provides developers with order reports in the Google Play Console.
+<h2>Google Play subscription (Android)</h2>
+<p>On Android, D-METER PRO is an auto-renewable subscription sold through
+Google Play. Payments are processed by Google. We do not receive or store
+your payment card details, Google account or billing address.</p>
+<p>To decide whether PRO features are available, the app asks the Google
+Play Billing Library on your device for your active subscriptions. The
+purchase information it returns is used on the device only for this
+purpose, is kept in memory only, and is not sent to us.</p>
+<p>Google provides developers with order and subscription reports in the
+Google Play Console.
 Google’s handling of your information is described in the
 {a(GOOGLE_PRIVACY, "Google Privacy Policy")}.</p>
 
@@ -121,7 +126,8 @@ Such data is provided by Google under the Google Privacy Policy.</p>
 web browser. These pages are hosted on GitHub Pages. When you visit them,
 GitHub may process technical information such as your IP address, as
 described in the {a(GITHUB_PRIVACY, "GitHub General Privacy Statement")}. The
-iOS app also opens Apple’s subscription management, which is governed by Apple.</p>
+app also opens the subscription management of Apple or Google Play, which is
+governed by Apple or Google.</p>
 
 <h2>Contacting us</h2>
 <p>If you email us, we receive your email address and the content of your
@@ -155,7 +161,8 @@ update the date above.</p>
 засобів збору звітів про збої.</li>
 <li>Застосунок не надсилає ваші дані ні нам, ні на сторонні сервери. Він
 на iOS звертається лише до Apple App Store через Apple StoreKit — для
-підписки. На Android застосунок не підключається до інтернету.</li>
+підписки. На Android він звертається лише до Google Play через Google Play
+Billing Library — для підписки.</li>
 </ul>
 
 <h2>Інформація, що зберігається на пристрої</h2>
@@ -179,13 +186,17 @@ update the date above.</p>
 Connect. Як Apple обробляє інформацію про ваші покупки, описано в
 {a(APPLE_PRIVACY, "Політиці конфіденційності Apple")}.</p>
 
-<h2>Покупка в Google Play (Android)</h2>
-<p>На Android D-METER — платний застосунок, що продається через Google
-Play. Усі функції входять у покупку; вбудованих покупок і підписок немає.
-Платежі обробляє Google. Ми не отримуємо і не зберігаємо дані вашої
-платіжної картки, облікового запису Google чи платіжну адресу, а застосунок
-не перевіряє покупку на жодному сервері.</p>
-<p>Google надає розробникам звіти про замовлення в Google Play Console. Як
+<h2>Підписка в Google Play (Android)</h2>
+<p>На Android D-METER PRO — підписка з автоматичним поновленням, що
+продається через Google Play. Платежі обробляє Google. Ми не отримуємо і не
+зберігаємо дані вашої платіжної картки, облікового запису Google чи
+платіжну адресу.</p>
+<p>Щоб визначити, чи доступні функції PRO, застосунок запитує активні
+підписки в Google Play Billing Library на пристрої. Інформація про покупки,
+яку вона повертає, використовується на пристрої лише для цього, зберігається
+тільки в оперативній пам’яті й не надсилається нам.</p>
+<p>Google надає розробникам звіти про замовлення та підписки в Google Play
+Console. Як
 Google обробляє вашу інформацію, описано в
 {a(GOOGLE_PRIVACY, "Політиці конфіденційності Google")}.</p>
 
@@ -205,8 +216,8 @@ Google обробляє вашу інформацію, описано в
 підтримки у вашому браузері. Ці сторінки розміщено на GitHub Pages. Коли ви
 їх відвідуєте, GitHub може обробляти технічну інформацію, як-от вашу
 IP-адресу, відповідно до {a(GITHUB_PRIVACY, "GitHub General Privacy Statement")}.
-Застосунок для iOS також відкриває керування підписками Apple, на яке поширюються
-правила Apple.</p>
+Застосунок також відкриває керування підписками Apple або Google Play, на
+яке поширюються правила Apple або Google.</p>
 
 <h2>Звернення до нас</h2>
 <p>Якщо ви пишете нам листа, ми отримуємо вашу електронну адресу та зміст
@@ -241,8 +252,8 @@ EULA, the Standard EULA prevails.</p>
 <p>On Android, D-METER is distributed through Google Play, and your use of it
 is also subject to the {a(GOOGLE_PLAY_TOS, "Google Play Terms of Service")}.</p>
 
-<h2>2. Free features (iOS)</h2>
-<p>On iOS, the base density calculator, including AIR details, is available without
+<h2>2. Free features</h2>
+<p>The base density calculator, including AIR details, is available without
 a subscription.</p>
 
 <h2>3. D-METER PRO Monthly subscription (iOS)</h2>
@@ -269,14 +280,24 @@ Apple ID.</li>
 {a(APPLE_REFUND)}.</li>
 </ul>
 
-<h2>4. Paid app on Google Play (Android)</h2>
+<h2>4. D-METER PRO subscription on Google Play (Android)</h2>
+<p>On Android, D-METER PRO unlocks the same features as on iOS.</p>
 <ul>
-<li>On Android, D-METER is a paid app. The price shown in Google Play is a
-one-time purchase that includes all features, including the Density Chart
-(virtual hydrometer), Blending and Density Escalation.</li>
-<li>There are no in-app purchases or subscriptions in the Android app.</li>
-<li>The app is available on your Android devices signed in with the Google
-account used for the purchase.</li>
+<li>It is an auto-renewable monthly subscription purchased with your Google
+account through Google Play.</li>
+<li>New subscribers get a 7-day free trial. The trial is available once per
+Google account; whether it is available to you is determined by Google Play
+and shown before you confirm the purchase.</li>
+<li>The price and currency are shown in the app and in Google Play before
+you confirm the purchase. Payment is charged to your Google Play account
+when you confirm the purchase, or at the end of the free trial if one
+applies.</li>
+<li>The subscription renews automatically each month until you cancel it.
+You can cancel at any time in Google Play under Payments &amp;
+subscriptions; see {a(GOOGLE_SUBS, "how to cancel a subscription on Google Play")}.
+Cancel before the end of the free trial to avoid being charged.</li>
+<li>The subscription is available on your Android devices signed in with
+the same Google account.</li>
 <li>Payments and refunds are handled by Google Play under its refund
 policies. See {a(GOOGLE_REFUND, "Google Play refund help")}.</li>
 </ul>
@@ -311,8 +332,8 @@ published on this page with its date.</p>
 <p>На Android D-METER поширюється через Google Play, і його використання
 також регулюється {a(GOOGLE_PLAY_TOS, "Умовами використання Google Play")}.</p>
 
-<h2>2. Безкоштовні функції (iOS)</h2>
-<p>На iOS базовий калькулятор густини, зокрема деталі AIR, доступний без
+<h2>2. Безкоштовні функції</h2>
+<p>Базовий калькулятор густини, зокрема деталі AIR, доступний без
 підписки.</p>
 
 <h2>3. Підписка D-METER PRO Monthly (iOS)</h2>
@@ -339,14 +360,24 @@ published on this page with its date.</p>
 подати на {a(APPLE_REFUND)}.</li>
 </ul>
 
-<h2>4. Платний застосунок у Google Play (Android)</h2>
+<h2>4. Підписка D-METER PRO у Google Play (Android)</h2>
+<p>На Android D-METER PRO відкриває ті самі функції, що й на iOS.</p>
 <ul>
-<li>На Android D-METER — платний застосунок. Ціна, показана в Google Play, —
-це разова покупка, що включає всі функції, зокрема графік густини
-(віртуальний ареометр), змішування та коригування за густиною.</li>
-<li>У застосунку для Android немає вбудованих покупок і підписок.</li>
-<li>Застосунок доступний на ваших пристроях Android, де виконано вхід в
-обліковий запис Google, з якого здійснено покупку.</li>
+<li>Це щомісячна підписка з автоматичним поновленням, яку оформлюють через
+обліковий запис Google у Google Play.</li>
+<li>Нові підписники отримують 7 днів безкоштовно. Пробний період надається
+один раз на обліковий запис Google; його доступність для вас визначає
+Google Play і показує до підтвердження покупки.</li>
+<li>Ціна й валюта показуються в застосунку та в Google Play до підтвердження
+покупки. Оплата списується з облікового запису Google Play під час
+підтвердження покупки або після завершення пробного періоду, якщо він
+діє.</li>
+<li>Підписка поновлюється автоматично щомісяця, доки ви її не скасуєте.
+Скасувати її можна будь-коли в Google Play у розділі «Платежі й підписки»;
+див. {a(GOOGLE_SUBS, "інструкцію Google Play зі скасування підписки")}.
+Щоб плата не списалася, скасуйте підписку до кінця пробного періоду.</li>
+<li>Підписка доступна на ваших пристроях Android, де виконано вхід у той
+самий обліковий запис Google.</li>
 <li>Платежі й повернення коштів здійснює Google Play відповідно до своїх
 правил повернення. Див. {a(GOOGLE_REFUND, "довідку Google Play щодо повернення коштів")}.</li>
 </ul>
@@ -398,9 +429,18 @@ end of the current period to avoid renewal.</dd>
 
 <h2>Android (Google Play)</h2>
 <dl>
-<dt>Is there a subscription on Android?</dt>
-<dd>No. On Google Play, D-METER is a paid app: the purchase includes all
-features, with no in-app purchases or subscriptions.</dd>
+<dt>How does PRO work on Android?</dt>
+<dd>D-METER PRO is a monthly Google Play subscription. New subscribers get a
+7-day free trial, once per Google account. The price is shown in the app
+before you confirm.</dd>
+<dt>How do I cancel?</dt>
+<dd>In Google Play: Payments &amp; subscriptions → Subscriptions → D-METER, or
+follow {a(GOOGLE_SUBS, "Google’s instructions")}. Cancel before the trial
+ends to avoid being charged.</dd>
+<dt>I already subscribed, but PRO is locked.</dt>
+<dd>Make sure the device is signed in to Google Play with the account used
+for the purchase, then open D-METER PRO from the app menu and tap “Restore
+purchases”.</dd>
 <dt>How do I get a refund?</dt>
 <dd>Purchases on Google Play are refunded by Google. See
 {a(GOOGLE_REFUND, "Google Play refund help")}.</dd>
@@ -444,9 +484,18 @@ features, with no in-app purchases or subscriptions.</dd>
 
 <h2>Android (Google Play)</h2>
 <dl>
-<dt>Чи є підписка на Android?</dt>
-<dd>Ні. У Google Play D-METER — платний застосунок: покупка включає всі
-функції, без вбудованих покупок і підписок.</dd>
+<dt>Як працює PRO на Android?</dt>
+<dd>D-METER PRO — щомісячна підписка в Google Play. Нові підписники
+отримують 7 днів безкоштовно, один раз на обліковий запис Google. Ціну
+показано в застосунку до підтвердження.</dd>
+<dt>Як скасувати?</dt>
+<dd>У Google Play: «Платежі й підписки» → «Підписки» → D-METER, або
+скористайтеся {a(GOOGLE_SUBS, "інструкцією Google")}. Щоб плата не
+списалася, скасуйте підписку до кінця пробного періоду.</dd>
+<dt>Підписку вже оформлено, але PRO закрито.</dt>
+<dd>Переконайтеся, що на пристрої виконано вхід у Google Play з тим
+обліковим записом, через який здійснено покупку, потім відкрийте D-METER PRO
+з меню застосунку й натисніть «Відновити покупки».</dd>
 <dt>Як повернути кошти?</dt>
 <dd>Покупки в Google Play повертає Google. Див.
 {a(GOOGLE_REFUND, "довідку Google Play щодо повернення коштів")}.</dd>
